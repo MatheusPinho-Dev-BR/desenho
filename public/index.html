@@ -5,20 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Desenho Assinado</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Carrega a biblioteca de identidade da Google -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <main>
     <header>
       <h1>Desenho Assinado</h1>
-      <p>Escolha um número entre 1 e 100. Cada número gera uma figura diferente, assinada com o seu e-mail.</p>
+      <p>Escolha um número entre 1 e 100. Cada número gera uma figura diferente, assinada com a sua conta Google.</p>
     </header>
+
+    <!-- Configuração do botão Google -->
+    <div id="g_id_onload"
+         data-client_id="422699729134-0r0unka3h2j2p7fugrsm5onoml8sl95l.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="lidarComLoginGoogle"
+         data-auto_prompt="false">
+    </div>
 
     <form id="formulario" novalidate>
       <label for="numero">Número</label>
       <input id="numero" name="numero" type="number" min="1" max="100" step="1" required placeholder="42">
 
-      <label for="email">E-mail</label>
-      <input id="email" name="email" type="email" required placeholder="voce@gmail.com">
+      <!-- Apresentação visual do botão Google -->
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="signin_with"
+           data-size="large"
+           data-logo_alignment="left">
+      </div>
 
       <button type="submit">Desenhar</button>
     </form>
