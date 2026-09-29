@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Desenho Assinado</title>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Função que recebe o token do Google de forma global e garantida -->
+  <script>
+    var tokenGlobalGoogle = "";
+    function lidarComLoginGoogle(resposta) {
+      tokenGlobalGoogle = resposta.credential;
+      var msg = document.getElementById("mensagem");
+      if(msg) {
+        msg.textContent = "Login efetuado com sucesso! Agora clique em Desenhar.";
+        msg.style.color = "green";
+      }
+    }
+  </script>
+  
   <!-- Carrega a biblioteca de identidade da Google -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
