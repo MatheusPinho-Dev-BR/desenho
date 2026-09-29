@@ -5,16 +5,7 @@ const mensagem = document.getElementById("mensagem");
 const botaoBaixar = document.getElementById("baixar");
 
 let svgAtual = "";
-let idTokenGoogle = "";
 
-// A Google exige que a função de callback esteja disponível globalmente no window
-window.lidarComLoginGoogle = function(resposta) {
-  idTokenGoogle = resposta.credential;
-  mensagem.textContent = "Login efetuado com sucesso! Agora pode clicar em Desenhar.";
-  mensagem.style.color = "green";
-};
-
-// Validação simples substituindo a importação que foi removida
 function numeroValido(n) {
   return Number.isInteger(n) && n >= 1 && n <= 100;
 }
@@ -31,7 +22,8 @@ formulario.addEventListener("submit", async (evento) => {
     return;
   }
 
-  if (!idTokenGoogle) {
+  // Verifica a variável global que foi preenchida no HTML
+  if (!window.tokenGlobalGoogle) {
     mensagem.textContent = "Por favor, faça login com a conta Google primeiro.";
     return;
   }
@@ -39,18 +31,17 @@ formulario.addEventListener("submit", async (evento) => {
   mensagem.textContent = "A gerar o desenho no servidor...";
 
   try {
-    // Pedido POST para a Pages Function
     const resposta = await fetch("/api/desenho", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${idTokenGoogle}`
+        "Authorization": `Bearer ${window.tokenGlobalGoogle}`
       },
       body: JSON.stringify({ numero: numero })
     });
 
     if (!resposta.ok) {
-      throw new Error(`Erro de servidor ou de validação (Status: ${resposta.status})`);
+      throw new Error(`Erro no servidor (Status: ${resposta.status}). Verifique a API.`);
     }
 
     svgAtual = await resposta.text();
